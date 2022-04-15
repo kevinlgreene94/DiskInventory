@@ -1,0 +1,25 @@
+﻿@model List<DiskTable>
+@{
+    ViewBag.Title = "Disk Manager";
+}
+<h1>@ViewBag.Title</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Disk ID</th>
+            <th>Disk Name</th>
+            <th>Release Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var disk in Model)
+        {
+            <tr>
+                <td>@disk.DiskId</td>
+                <td>@disk.DiskName</td>
+                <td>@disk.ReleaseDate</td>
+            </tr>
+        }
+    </tbody>
+</table>

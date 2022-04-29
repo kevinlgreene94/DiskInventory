@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
-#nullable disable
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DiskInventory.Models
 {
-    public partial class DiskHasBorrower
+    public class DiskHasBorrowerViewModel 
     {
         public int DiskHasBorrowerId { get; set; }
         public int DiskId { get; set; }
@@ -15,5 +15,7 @@ namespace DiskInventory.Models
 
         public virtual Borrower Borrower { get; set; }
         public virtual DiskTable Disk { get; set; }
+        public List<Borrower> Borrowers { get; set; }
+        public List<DiskTable> Disks { get; set; }
     }
 }

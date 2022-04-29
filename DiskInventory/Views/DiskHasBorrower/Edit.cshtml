@@ -28,13 +28,13 @@
             }
         </select>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="BorrowDate">Borrow Date</label>
-        <input asp-for="BorrowDate" type="date"/>
+        <input asp-for="BorrowDate" class="form-control" type="date"/>
     </div>
-    <div class="form-group">
+    <div>
         <label asp-for="ReturnDate">Return Date</label>
-        <input asp-for="ReturnDate" type="date" />
+        <input asp-for="ReturnDate" class="form-control" type="date" />
     </div>
 
     <input type="hidden" asp-for="DiskHasBorrowerId" />

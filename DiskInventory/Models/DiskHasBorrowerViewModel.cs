@@ -7,15 +7,20 @@ namespace DiskInventory.Models
 {
     public class DiskHasBorrowerViewModel 
     {
-        public int DiskHasBorrowerId { get; set; }
-        public int DiskId { get; set; }
-        public int BorrowerId { get; set; }
-        public DateTime BorrowDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        //public int DiskHasBorrowerId { get; set; }
+        //public int DiskId { get; set; }
+        //public int BorrowerId { get; set; }
+        //public DateTime BorrowDate { get; set; }
+        //public DateTime? ReturnDate { get; set; }
+        public DiskHasBorrowerViewModel()
+        {
+            CurrentVM = new DiskHasBorrower();
+        }
 
         public virtual Borrower Borrower { get; set; }
         public virtual DiskTable Disk { get; set; }
         public List<Borrower> Borrowers { get; set; }
         public List<DiskTable> Disks { get; set; }
+        public DiskHasBorrower CurrentVM { get; set; }
     }
 }

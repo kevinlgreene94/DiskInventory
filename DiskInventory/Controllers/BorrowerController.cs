@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DiskInventory.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiskInventory.Controllers
 {
@@ -40,9 +41,13 @@ namespace DiskInventory.Controllers
             if (ModelState.IsValid)
             {
                 if (borrower.BorrowerId == 0)
-                    context.Borrowers.Add(borrower);
+                    //context.Borrowers.Add(borrower);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_borrower @p0, @p1, @p2",
+                        parameters: new[] { borrower.Fname.ToString(), borrower.Lname.ToString(), borrower.PhoneNum.ToString() });
                 else
-                    context.Borrowers.Update(borrower);
+                    //context.Borrowers.Update(borrower);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_borrower @p0, @p1, @p2, @p3",
+                        parameters: new[] { borrower.BorrowerId.ToString(), borrower.Fname.ToString(), borrower.Lname.ToString(), borrower.PhoneNum.ToString() });
                 context.SaveChanges();
                 return RedirectToAction("Index", "Borrower");
             }
@@ -64,7 +69,9 @@ namespace DiskInventory.Controllers
         [HttpPost]
         public IActionResult Delete(Borrower borrower)
         {
-            context.Borrowers.Remove(borrower);
+            //context.Borrowers.Remove(borrower);
+            context.Database.ExecuteSqlRaw("execute sp_delete_borrower @p0",
+                parameters: new[] { borrower.BorrowerId.ToString() });
             context.SaveChanges();
             return RedirectToAction("Index", "Borrower");
         }

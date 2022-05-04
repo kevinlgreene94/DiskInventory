@@ -45,9 +45,15 @@ namespace DiskInventory.Controllers
             if (ModelState.IsValid)
             {
                 if (disk.DiskId == 0)
-                    context.DiskTables.Add(disk);
+                    //context.DiskTables.Add(disk);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_disk @p0, @p1, @p2, @p3, @p4",
+                        parameters: new[] {disk.DiskName.ToString(), disk.ReleaseDate.ToString(), disk.GenreId.ToString(), disk.StatusId.ToString(),
+                            disk.DiskTypeId.ToString()});
                 else
-                    context.DiskTables.Update(disk);
+                    //context.DiskTables.Update(disk);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_disk @p0, @p1, @p2, @p3, @p4, @p5",
+                        parameters: new[] {disk.DiskId.ToString(),disk.DiskName.ToString(), disk.ReleaseDate.ToString(), disk.GenreId.ToString(), disk.StatusId.ToString(),
+                            disk.DiskTypeId.ToString()});
                 context.SaveChanges();
                 return RedirectToAction("Index", "Disk");
             }
@@ -73,7 +79,9 @@ namespace DiskInventory.Controllers
         [HttpPost]
         public IActionResult Delete(DiskTable disk)
         {
-            context.DiskTables.Remove(disk);
+            //context.DiskTables.Remove(disk);
+            context.Database.ExecuteSqlRaw("execute sp_delete_disk @p0",
+                parameters: disk.DiskId);
             context.SaveChanges();
             return RedirectToAction("Index", "Disk");
         }

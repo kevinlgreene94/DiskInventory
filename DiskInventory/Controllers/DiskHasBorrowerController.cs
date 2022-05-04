@@ -60,13 +60,39 @@ namespace DiskInventory.Controllers
                 checkout.ReturnDate = diskhasborrowerviewmodel.CurrentVM.ReturnDate;
                 if(checkout.DiskHasBorrowerId == 0)
                 {
-                    context.DiskHasBorrowers.Add(checkout);
-                    TempData["message"] = "Checkout Added!";
+                    //context.DiskHasBorrowers.Add(checkout);
+                    if (checkout.ReturnDate != null)
+                    {
+                        context.Database.ExecuteSqlRaw("execute sp_ins_disk_has_borrower @p0, @p1, @p2, @p3",
+                            parameters: new[] {checkout.BorrowerId.ToString(), checkout.DiskId.ToString(),
+                        checkout.BorrowDate.ToString(), checkout.ReturnDate.ToString()});
+                        TempData["message"] = "Checkout Updated!";
+                    }
+                    else
+                    {
+                        context.Database.ExecuteSqlRaw("execute sp_ins_disk_has_borrower @p0, @p1, @p2, @p3",
+                            parameters: new[] { checkout.BorrowerId.ToString(), checkout.DiskId.ToString(),
+                        checkout.BorrowDate.ToString(), null});
+                        TempData["message"] = "Checkout Updated!";
+                    }
                 }
                 else
                 {
-                    context.DiskHasBorrowers.Update(checkout);
-                    TempData["message"] = "Checkout Updated!";
+                    //context.DiskHasBorrowers.Update(checkout);
+                    if (checkout.ReturnDate != null)
+                    {
+                        context.Database.ExecuteSqlRaw("execute sp_upd_disk_has_borrower @p0, @p1, @p2, @p3, @p4",
+                            parameters: new[] {checkout.DiskHasBorrowerId.ToString(), checkout.BorrowerId.ToString(), checkout.DiskId.ToString(),
+                        checkout.BorrowDate.ToString(), checkout.ReturnDate.ToString()});
+                        TempData["message"] = "Checkout Updated!";
+                    }
+                    else
+                    {
+                        context.Database.ExecuteSqlRaw("execute sp_upd_disk_has_borrower @p0, @p1, @p2, @p3, @p4",
+                            parameters: new[] {checkout.DiskHasBorrowerId.ToString(), checkout.BorrowerId.ToString(), checkout.DiskId.ToString(),
+                        checkout.BorrowDate.ToString(), null});
+                        TempData["message"] = "Checkout Updated!";
+                    }
                 }
                 context.SaveChanges();
                 return RedirectToAction("Index", "DiskHasBorrower");
